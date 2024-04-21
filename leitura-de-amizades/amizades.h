@@ -3,19 +3,21 @@
 
 #include <stdio.h>
 
-typedef struct pessoa Person;
+/*Funcoes com Pessoa*/
+
+typedef struct pessoa Pessoa;
+
+Pessoa* criaPessoa(char *nome);
+
+void liberaPessoa(Pessoa *p);
+
+/*Lista de Pessoas*/
 
 typedef struct lista ListaPessoas;
 
-Person* criaPessoa(char *nome);
-
-void liberaPessoa(Person *p);
-
-/**/
-
 ListaPessoas* criaListaPessoa();
 
-void inserePessoa(ListaPessoas *l, Person *p);
+void inserePessoa(ListaPessoas *l, Pessoa *p);
 
 void retiraPessoa(ListaPessoas *l, char *nome);
 
@@ -25,13 +27,14 @@ void liberaListaPessoa(ListaPessoas *l);
 
 void liberaPessoas(ListaPessoas *l);
 
-/**/
+/*Funcoes com ListaPessoas*/
 
-Person* buscaPessoa(ListaPessoas *l, char *nome);
+Pessoa* buscaPessoa(ListaPessoas *l, char *nome);
 
 void adicionaAmigo(ListaPessoas *l, char *nome1, char *nome2);
 
 void imprimeAmigosDe(ListaPessoas *l, char *nome);
 
+ListaPessoas* lerAmizades();
 
 #endif

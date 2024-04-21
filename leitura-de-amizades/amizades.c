@@ -8,14 +8,14 @@ struct pessoa{
     ListaPessoas *amigos;
 };
 
-Person* criaPessoa(char *nome){
-    Person *p = malloc(sizeof(Person));
+Pessoa* criaPessoa(char *nome){
+    Pessoa *p = malloc(sizeof(Pessoa));
     p->nome = strdup(nome);
     p->amigos = criaListaPessoa();
     return p;
 }
 
-void liberaPessoa(Person *p){
+void liberaPessoa(Pessoa *p){
     free(p->nome);
     liberaListaPessoa(p->amigos);
     free(p);
@@ -31,7 +31,7 @@ struct lista{
 };
 
 struct celula{
-    Person *pessoa;
+    Pessoa *pessoa;
     Celula *prox;
     Celula *ant;
 };
@@ -42,7 +42,7 @@ ListaPessoas* criaListaPessoa(){
     return l;
 }
 
-void inserePessoa(ListaPessoas *l, Person *p){
+void inserePessoa(ListaPessoas *l, Pessoa *p){
     Celula *cel = malloc(sizeof(Celula));
     cel->pessoa = p;
     if(l->first != NULL) l->first->ant = cel;
@@ -104,7 +104,7 @@ void liberaListaPessoa(ListaPessoas *l){
 
 /**/
 
-Person* buscaPessoa(ListaPessoas *l, char *nome){
+Pessoa* buscaPessoa(ListaPessoas *l, char *nome){
     Celula *cel;
     for(cel = l->first; cel!= NULL; cel = cel->prox){
         if(!strcmp(cel->pessoa->nome, nome)) break;
@@ -114,18 +114,41 @@ Person* buscaPessoa(ListaPessoas *l, char *nome){
 }
 
 void adicionaAmigo(ListaPessoas *l, char *nome1, char *nome2){
-    Person *pessoa1 = buscaPessoa(l, nome1);
-    Person *pessoa2 = buscaPessoa(l, nome2);
+    Pessoa *pessoa1 = buscaPessoa(l, nome1);
+    Pessoa *pessoa2 = buscaPessoa(l, nome2);
 
     inserePessoa(pessoa1->amigos, pessoa2);
     inserePessoa(pessoa2->amigos, pessoa1);
 }
 
 void imprimeAmigosDe(ListaPessoas *l, char *nome){
-    Person *p = buscaPessoa(l, nome);
+    Pessoa *p = buscaPessoa(l, nome);
     printf("Amigos de %s:\n", nome);
     for(Celula *cel = p->amigos->first; cel; cel = cel->prox){
         printf("%s\n", cel->pessoa->nome);
     }
     printf("\n");
+}
+
+ListaPessoas* lerAmizades(){
+    ListaPessoas *lista = criaListaPessoa();
+    FILE *amizade = fopen("amizade.txt", "r");
+
+
+    char nome1[50], nome2[50];
+    
+    while(fscanf(amizade, "%[^;]%*c", nome1) == 1){
+        fscanf(amizade, "%[^\n]%*c", nome2);
+        if(buscaPessoa(lista, nome1) == NULL){
+            Pessoa *p1 = criaPessoa(nome1);
+            inserePessoa(lista, p1);
+        }
+        if(buscaPessoa(lista, nome2) == NULL){
+            Pessoa *p2 = criaPessoa(nome2);
+            inserePessoa(lista, p2);
+        }
+        adicionaAmigo(lista, nome1, nome2);
+    }
+
+    return lista;
 }

@@ -28,6 +28,6 @@ void freeSong(songType * song) {
 
 void printSong(songType * song) {
 
-    printf("%s - %s", song -> songName, song -> singerName);
+    printf("   %s - %s", song -> songName, song -> singerName);
 
 }

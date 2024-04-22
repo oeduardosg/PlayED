@@ -16,6 +16,6 @@ void freeCell(cellType * cell);
 
 void freePlaylist(playlistType * playlist);
 
-playlistType * readPlaylistFile(const char * playlistFileName);
+playlistType * readPlaylistFile(char * playlistFileName);
 
 #endif

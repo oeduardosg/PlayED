@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "playlist.h": "c",
+        "playlistlist.h": "c",
+        "typeinfo": "c",
+        "stdio.h": "c",
+        "string.h": "c"
+    }
+}

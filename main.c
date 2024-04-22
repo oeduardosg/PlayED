@@ -5,12 +5,14 @@
 
 int main() {
     PeopleList * list = readFriends();
+    readPeoplePlaylists(list);
 
     printPeopleList(list);
 
     freePeople(list);
     freePeopleList(list);
 
+    
     return 0;
 
 }

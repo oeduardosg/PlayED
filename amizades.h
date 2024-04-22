@@ -2,6 +2,7 @@
 #define amizades_h
 
 #include <stdio.h>
+#include "playlistList.h"
 
 /*Funcoes com PersonType*/
 
@@ -36,5 +37,7 @@ void addFriend(PeopleList *l, char *name1, char *name2);
 void printFriendsOf(PeopleList *l, char *name);
 
 PeopleList* readFriends();
+
+void readPeoplePlaylists(PeopleList *l);
 
 #endif

@@ -51,6 +51,8 @@ void insertCell(playlistType * playlist, songType * song) {
 
 void printPlaylist(playlistType * playlist) {
 
+    printf("  %s:\n", playlist->playlistName);
+
     if(!playlist -> firstCell) {
         printf("Não há músicas nessa playlist.\n");
         return;
@@ -94,9 +96,12 @@ void freePlaylist(playlistType * playlist) {
 
 }
 
-playlistType * readPlaylistFile(const char * playlistFileName) {
+playlistType * readPlaylistFile(char * playlistFileName) {
 
-    FILE * playlistFile = fopen(playlistFileName, "r");
+    char playlistPath[65];
+    sprintf(playlistPath, "inputs/%s", playlistFileName);
+
+    FILE * playlistFile = fopen(playlistPath, "r");
 
     if(!playlistFile) {
         printf("Erro ao abrir o arquivo %s", playlistFileName);

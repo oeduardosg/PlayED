@@ -3,68 +3,68 @@
 #include <string.h>
 #include "amizades.h"
 
-/*Funcoes com Pessoa*/
+/*Funcoes com personType*/
 
-struct pessoa{
-    char *nome;
-    ListaPessoas *amigos;
+struct person{
+    char *name;
+    PeopleList *friends;
 };
 
-Pessoa* criaPessoa(char *nome){
-    Pessoa *p = malloc(sizeof(Pessoa));
+personType* createPerson(char *name){
+    personType *p = malloc(sizeof(personType));
 
-    p->nome = strdup(nome);
-    p->amigos = criaListaPessoa();
+    p->name = strdup(name);
+    p->friends = createPeopleList();
 
     return p;
 }
 
-void liberaPessoa(Pessoa *p){
-    free(p->nome);
-    liberaListaPessoa(p->amigos);
+void freePerson(personType *p){
+    free(p->name);
+    freePeopleList(p->friends);
     free(p);
 }
 
 /*Lista de Pessoas*/
 
-typedef struct celula Celula;
+typedef struct cell cellType;
 
-struct lista{
-    Celula *first;
-    Celula *last;
+struct list{
+    cellType *first;
+    cellType *last;
 };
 
-struct celula{
-    Pessoa *pessoa;
-    Celula *prox;
-    Celula *ant;
+struct cell{
+    personType *person;
+    cellType *next;
+    cellType *prior;
 };
 
-ListaPessoas* criaListaPessoa(){
-    ListaPessoas *l = malloc(sizeof(ListaPessoas));
+PeopleList* createPeopleList(){
+    PeopleList *l = malloc(sizeof(PeopleList));
 
     l->first = l->last = NULL;
 
     return l;
 }
 
-void inserePessoa(ListaPessoas *l, Pessoa *p){
-    Celula *cel = malloc(sizeof(Celula));
+void insertPerson(PeopleList *l, personType *p){
+    cellType *cel = malloc(sizeof(cellType));
 
-    cel->pessoa = p;
+    cel->person = p;
 
-    if(l->last != NULL) l->last->prox = cel;
-    cel->prox = NULL;
-    cel->ant = l->last;
+    if(l->last != NULL) l->last->next = cel;
+    cel->next = NULL;
+    cel->prior = l->last;
 
     if(l->first == NULL) l->first = cel;
     l->last = cel;
 }
 
-void retiraPessoa(ListaPessoas *l, char *nome){
-    Celula *cel;
-    for(cel = l->first; cel!= NULL; cel = cel->prox){
-        if(!strcmp(cel->pessoa->nome, nome)) break;
+void removePerson(PeopleList *l, char *name){
+    cellType *cel;
+    for(cel = l->first; cel!= NULL; cel = cel->next){
+        if(!strcmp(cel->person->name, name)) break;
     }
 
     if(!cel){
@@ -73,94 +73,94 @@ void retiraPessoa(ListaPessoas *l, char *nome){
     }
     
 
-    if(cel->prox != NULL) cel->prox->ant = cel->ant;
-    if(cel->ant != NULL) cel->ant->prox = cel->prox;
+    if(cel->next != NULL) cel->next->prior = cel->prior;
+    if(cel->prior != NULL) cel->prior->next = cel->next;
 
-    if(cel->ant == NULL) l->first = cel->prox;
-    if(cel->prox == NULL)  l->last = cel->ant;
+    if(cel->prior == NULL) l->first = cel->next;
+    if(cel->next == NULL)  l->last = cel->prior;
         
     free(cel);
 }
 
-void imprimeListaPessoa(ListaPessoas *l){
-    printf("Lista de Pessoa:\n");
+void printPeopleList(PeopleList *l){
+    printf("Lista de personType:\n");
 
-    for(Celula *cel = l->first; cel; cel = cel->prox){
-        printf("%s\n", cel->pessoa->nome);
-        imprimeAmigosDe(l, cel->pessoa->nome);
+    for(cellType *cel = l->first; cel; cel = cel->next){
+        printf("%s\n", cel->person->name);
+        printFriendsOf(l, cel->person->name);
     }
 }
 
-void liberaPessoas(ListaPessoas *l){
-    Celula *cel = l->first;
+void freePeople(PeopleList *l){
+    cellType *cel = l->first;
 
     while(cel){
-        liberaPessoa(cel->pessoa);
-        cel = cel->prox;
+        freePerson(cel->person);
+        cel = cel->next;
     }
 }
 
-void liberaListaPessoa(ListaPessoas *l){
-    Celula *cel = l->first;
-    Celula *aux = l->first;
+void freePeopleList(PeopleList *l){
+    cellType *cel = l->first;
+    cellType *aux = l->first;
 
     while(aux){
         cel = aux;
-        aux = cel->prox;
+        aux = cel->next;
         free(cel);
     }
 
     free(l);
 }
 
-/*Funcoes com ListaPessoas*/
+/*Funcoes com PeopleList*/
 
-Pessoa* buscaPessoa(ListaPessoas *l, char *nome){
-    Celula *cel;
-    for(cel = l->first; cel!= NULL; cel = cel->prox){
-        if(!strcmp(cel->pessoa->nome, nome)) break;
+personType* searchPerson(PeopleList *l, char *name){
+    cellType *cel;
+    for(cel = l->first; cel!= NULL; cel = cel->next){
+        if(!strcmp(cel->person->name, name)) break;
     }
 
     if(cel == NULL) return NULL;
 
-    return cel->pessoa;
+    return cel->person;
 }
 
-void adicionaAmigo(ListaPessoas *l, char *nome1, char *nome2){
-    Pessoa *pessoa1 = buscaPessoa(l, nome1);
-    Pessoa *pessoa2 = buscaPessoa(l, nome2);
+void addFriend(PeopleList *l, char *name1, char *name2){
+    personType *person1 = searchPerson(l, name1);
+    personType *person2 = searchPerson(l, name2);
 
-    inserePessoa(pessoa1->amigos, pessoa2);
-    inserePessoa(pessoa2->amigos, pessoa1);
+    insertPerson(person1->friends, person2);
+    insertPerson(person2->friends, person1);
 }
 
-void imprimeAmigosDe(ListaPessoas *l, char *nome){
-    Pessoa *p = buscaPessoa(l, nome);
+void printFriendsOf(PeopleList *l, char *name){
+    personType *p = searchPerson(l, name);
     
-    printf("Amigos de %s:\n", nome);
-    for(Celula *cel = p->amigos->first; cel; cel = cel->prox){
-        printf("%s\n", cel->pessoa->nome);
+    printf("amigos de %s:\n", name);
+    for(cellType *cel = p->friends->first; cel; cel = cel->next){
+        printf("%s\n", cel->person->name);
     }
     printf("\n");
 }
 
-ListaPessoas* lerAmizades(){
-    ListaPessoas *lista = criaListaPessoa();
+PeopleList* readFriends(){
+    PeopleList *lista = createPeopleList();
     FILE *amizade = fopen("amizade.txt", "r");
 
-    char nome1[50], nome2[50];
+    char name1[50], name2[50];
     
-    while(fscanf(amizade, "%[^;]%*c", nome1) == 1){
-        fscanf(amizade, "%[^\n]%*c", nome2);
-        if(buscaPessoa(lista, nome1) == NULL){
-            Pessoa *p1 = criaPessoa(nome1);
-            inserePessoa(lista, p1);
+    while(fscanf(amizade, "%[^;]%*c", name1) == 1){
+        fscanf(amizade, "%[^\n]%*c", name2);
+        if(searchPerson(lista, name1) == NULL){
+            personType *p1 = createPerson(name1);
+            insertPerson(lista, p1);
         }
-        if(buscaPessoa(lista, nome2) == NULL){
-            Pessoa *p2 = criaPessoa(nome2);
-            inserePessoa(lista, p2);
+        if(searchPerson(lista, name2) == NULL){
+            personType *p2 = createPerson(name2);
+            insertPerson(lista, p2);
         }
-        adicionaAmigo(lista, nome1, nome2);
+        addFriend(lista, name1, name2);
     }
 
     fclose(amizade);

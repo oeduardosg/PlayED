@@ -3,38 +3,38 @@
 
 #include <stdio.h>
 
-/*Funcoes com Pessoa*/
+/*Funcoes com PersonType*/
 
-typedef struct pessoa Pessoa;
+typedef struct person personType;
 
-Pessoa* criaPessoa(char *nome);
+personType* createPerson(char *name);
 
-void liberaPessoa(Pessoa *p);
+void freePerson(personType *p);
 
 /*Lista de Pessoas*/
 
-typedef struct lista ListaPessoas;
+typedef struct list PeopleList;
 
-ListaPessoas* criaListaPessoa();
+PeopleList* createPeopleList();
 
-void inserePessoa(ListaPessoas *l, Pessoa *p);
+void insertPerson(PeopleList *l, personType *p);
 
-void retiraPessoa(ListaPessoas *l, char *nome);
+void removePerson(PeopleList *l, char *name);
 
-void imprimeListaPessoa(ListaPessoas *l);
+void printPeopleList(PeopleList *l);
 
-void liberaListaPessoa(ListaPessoas *l);
+void freePeopleList(PeopleList *l);
 
-void liberaPessoas(ListaPessoas *l);
+void freePeople(PeopleList *l);
 
-/*Funcoes com ListaPessoas*/
+/*Funcoes com PeopleList*/
 
-Pessoa* buscaPessoa(ListaPessoas *l, char *nome);
+personType* searchPerson(PeopleList *l, char *name);
 
-void adicionaAmigo(ListaPessoas *l, char *nome1, char *nome2);
+void addFriend(PeopleList *l, char *name1, char *name2);
 
-void imprimeAmigosDe(ListaPessoas *l, char *nome);
+void printFriendsOf(PeopleList *l, char *name);
 
-ListaPessoas* lerAmizades();
+PeopleList* readFriends();
 
 #endif

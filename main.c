@@ -4,12 +4,12 @@
 #include "amizades.h"
 
 int main() {
-    ListaPessoas *lista = lerAmizades();
+    PeopleList * list = readFriends();
 
-    imprimeListaPessoa(lista);
+    printPeopleList(list);
 
-    liberaPessoas(lista);
-    liberaListaPessoa(lista);
+    freePeople(list);
+    freePeopleList(list);
 
     return 0;
 

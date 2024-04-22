@@ -52,12 +52,13 @@ void inserePessoa(ListaPessoas *l, Pessoa *p){
     Celula *cel = malloc(sizeof(Celula));
 
     cel->pessoa = p;
-    if(l->first != NULL) l->first->ant = cel;
-    cel->prox = l->first;
-    cel->ant = NULL;
 
-    if(l->last == NULL) l->last = cel;
-    l->first = cel;
+    if(l->last != NULL) l->last->prox = cel;
+    cel->prox = NULL;
+    cel->ant = l->last;
+
+    if(l->first == NULL) l->first = cel;
+    l->last = cel;
 }
 
 void retiraPessoa(ListaPessoas *l, char *nome){

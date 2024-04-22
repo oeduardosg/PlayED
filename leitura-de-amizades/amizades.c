@@ -3,6 +3,8 @@
 #include <string.h>
 #include "amizades.h"
 
+/*Funcoes com Pessoa*/
+
 struct pessoa{
     char *nome;
     ListaPessoas *amigos;
@@ -10,8 +12,10 @@ struct pessoa{
 
 Pessoa* criaPessoa(char *nome){
     Pessoa *p = malloc(sizeof(Pessoa));
+
     p->nome = strdup(nome);
     p->amigos = criaListaPessoa();
+
     return p;
 }
 
@@ -21,7 +25,7 @@ void liberaPessoa(Pessoa *p){
     free(p);
 }
 
-/**/
+/*Lista de Pessoas*/
 
 typedef struct celula Celula;
 
@@ -38,12 +42,15 @@ struct celula{
 
 ListaPessoas* criaListaPessoa(){
     ListaPessoas *l = malloc(sizeof(ListaPessoas));
+
     l->first = l->last = NULL;
+
     return l;
 }
 
 void inserePessoa(ListaPessoas *l, Pessoa *p){
     Celula *cel = malloc(sizeof(Celula));
+
     cel->pessoa = p;
     if(l->first != NULL) l->first->ant = cel;
     cel->prox = l->first;
@@ -51,7 +58,6 @@ void inserePessoa(ListaPessoas *l, Pessoa *p){
 
     if(l->last == NULL) l->last = cel;
     l->first = cel;
-
 }
 
 void retiraPessoa(ListaPessoas *l, char *nome){
@@ -70,13 +76,14 @@ void retiraPessoa(ListaPessoas *l, char *nome){
     if(cel->ant != NULL) cel->ant->prox = cel->prox;
 
     if(cel->ant == NULL) l->first = cel->prox;
-    if(cel->prox != NULL)  l->last = cel->ant;
+    if(cel->prox == NULL)  l->last = cel->ant;
         
     free(cel);
 }
 
 void imprimeListaPessoa(ListaPessoas *l){
     printf("Lista de Pessoa:\n");
+
     for(Celula *cel = l->first; cel; cel = cel->prox){
         printf("%s\n", cel->pessoa->nome);
         imprimeAmigosDe(l, cel->pessoa->nome);
@@ -85,6 +92,7 @@ void imprimeListaPessoa(ListaPessoas *l){
 
 void liberaPessoas(ListaPessoas *l){
     Celula *cel = l->first;
+
     while(cel){
         liberaPessoa(cel->pessoa);
         cel = cel->prox;
@@ -94,22 +102,26 @@ void liberaPessoas(ListaPessoas *l){
 void liberaListaPessoa(ListaPessoas *l){
     Celula *cel = l->first;
     Celula *aux = l->first;
+
     while(aux){
         cel = aux;
         aux = cel->prox;
         free(cel);
     }
+
     free(l);
 }
 
-/**/
+/*Funcoes com ListaPessoas*/
 
 Pessoa* buscaPessoa(ListaPessoas *l, char *nome){
     Celula *cel;
     for(cel = l->first; cel!= NULL; cel = cel->prox){
         if(!strcmp(cel->pessoa->nome, nome)) break;
     }
+
     if(cel == NULL) return NULL;
+
     return cel->pessoa;
 }
 
@@ -123,6 +135,7 @@ void adicionaAmigo(ListaPessoas *l, char *nome1, char *nome2){
 
 void imprimeAmigosDe(ListaPessoas *l, char *nome){
     Pessoa *p = buscaPessoa(l, nome);
+    
     printf("Amigos de %s:\n", nome);
     for(Celula *cel = p->amigos->first; cel; cel = cel->prox){
         printf("%s\n", cel->pessoa->nome);
@@ -133,7 +146,6 @@ void imprimeAmigosDe(ListaPessoas *l, char *nome){
 ListaPessoas* lerAmizades(){
     ListaPessoas *lista = criaListaPessoa();
     FILE *amizade = fopen("amizade.txt", "r");
-
 
     char nome1[50], nome2[50];
     
@@ -149,6 +161,8 @@ ListaPessoas* lerAmizades(){
         }
         adicionaAmigo(lista, nome1, nome2);
     }
+
+    fclose(amizade);
 
     return lista;
 }

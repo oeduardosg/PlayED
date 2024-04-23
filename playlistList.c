@@ -3,17 +3,17 @@
 #include <string.h>
 #include "playlistList.h"
 
-typedef struct cellPlLi cellTypePlLi;
+typedef struct cellType cellType;
 
 struct playlistList{
-    cellTypePlLi *first;
-    cellTypePlLi *last;
+    cellType *first;
+    cellType *last;
 };
 
-struct cellPlLi{
+struct cellType{
     playlistType *playlist;
-    cellTypePlLi *next;
-    cellTypePlLi *prior;
+    cellType *next;
+    cellType *prior;
 };
 
 playlistList* createPlaylistList(){
@@ -25,7 +25,7 @@ playlistList* createPlaylistList(){
 }
 
 void insertPlaylist(playlistList *l, playlistType *p){
-    cellTypePlLi *cel = malloc(sizeof(cellTypePlLi));
+    cellType *cel = malloc(sizeof(cellType));
 
     cel->playlist = p;
 
@@ -44,7 +44,7 @@ void printPlaylistList(playlistList *l, char *name){
     }
     printf("Playlists de %s:\n", name);
 
-    for(cellTypePlLi *cel = l->first; cel; cel = cel->next){
+    for(cellType *cel = l->first; cel; cel = cel->next){
         printPlaylist(cel->playlist);
     }
 
@@ -52,8 +52,8 @@ void printPlaylistList(playlistList *l, char *name){
 }
 
 void freePlaylistList(playlistList *l){
-    cellTypePlLi *cel = l->first;
-    cellTypePlLi *aux = l->first;
+    cellType *cel = l->first;
+    cellType *aux = l->first;
 
     while(aux){
         cel = aux;

@@ -30,17 +30,17 @@ void freePerson(personType *p){
 
 /*Lista de Pessoas*/
 
-typedef struct cellPe cellTypePe;
+typedef struct cellType cellType;
 
 struct list{
-    cellTypePe *first;
-    cellTypePe *last;
+    cellType *first;
+    cellType *last;
 };
 
-struct cellPe{
+struct cellType{
     personType *person;
-    cellTypePe *next;
-    cellTypePe *prior;
+    cellType *next;
+    cellType *prior;
 };
 
 PeopleList* createPeopleList(){
@@ -52,7 +52,7 @@ PeopleList* createPeopleList(){
 }
 
 void insertPerson(PeopleList *l, personType *p){
-    cellTypePe *cel = malloc(sizeof(cellTypePe));
+    cellType *cel = malloc(sizeof(cellType));
 
     cel->person = p;
 
@@ -65,7 +65,7 @@ void insertPerson(PeopleList *l, personType *p){
 }
 
 void removePerson(PeopleList *l, char *name){
-    cellTypePe *cel;
+    cellType *cel;
     for(cel = l->first; cel!= NULL; cel = cel->next){
         if(!strcmp(cel->person->name, name)) break;
     }
@@ -86,9 +86,11 @@ void removePerson(PeopleList *l, char *name){
 }
 
 void printPeopleList(PeopleList *l){
+    if(!l) return;
+    
     printf("Lista de Pessoas:\n");
 
-    for(cellTypePe *cel = l->first; cel; cel = cel->next){
+    for(cellType *cel = l->first; cel; cel = cel->next){
         printf("%s\n", cel->person->name);
         printFriendsOf(l, cel->person->name);
         printPlaylistList(cel->person->playlists, cel->person->name);
@@ -96,7 +98,9 @@ void printPeopleList(PeopleList *l){
 }
 
 void freePeople(PeopleList *l){
-    cellTypePe *cel = l->first;
+    if(!l) return;
+
+    cellType *cel = l->first;
 
     while(cel){
         freePerson(cel->person);
@@ -105,8 +109,10 @@ void freePeople(PeopleList *l){
 }
 
 void freePeopleList(PeopleList *l){
-    cellTypePe *cel = l->first;
-    cellTypePe *aux = l->first;
+    if(!l) return;
+
+    cellType *cel = l->first;
+    cellType *aux = l->first;
 
     while(aux){
         cel = aux;
@@ -120,7 +126,9 @@ void freePeopleList(PeopleList *l){
 /*Funcoes com PeopleList*/
 
 personType* searchPerson(PeopleList *l, char *name){
-    cellTypePe *cel;
+    if(!l) return NULL;
+
+    cellType *cel;
     for(cel = l->first; cel!= NULL; cel = cel->next){
         if(!strcmp(cel->person->name, name)) break;
     }
@@ -142,14 +150,20 @@ void printFriendsOf(PeopleList *l, char *name){
     personType *p = searchPerson(l, name);
     
     printf("Amigos de %s:\n", name);
-    for(cellTypePe *cel = p->friends->first; cel; cel = cel->next){
+    for(cellType *cel = p->friends->first; cel; cel = cel->next){
         printf("  %s\n", cel->person->name);
     }
 }
 
 PeopleList* readFriends(){
+    FILE *amizade = fopen("entradas/amizade.txt", "r");
+
+    if(!amizade) {
+        printf("Erro ao abrir o arquivo amizade.txt\n");
+        return NULL;
+    }
+
     PeopleList *lista = createPeopleList();
-    FILE *amizade = fopen("inputs/amizade.txt", "r");
 
     char name1[50], name2[50];
     
@@ -172,7 +186,14 @@ PeopleList* readFriends(){
 }
 
 void readPeoplePlaylists(PeopleList *l){
-    FILE *playlist = fopen("inputs/playlist.txt", "r");
+    if(!l) return;
+
+    FILE *playlist = fopen("entradas/playlist.txt", "r");
+
+    if(!playlist){
+        printf("Erro ao abrir o arquivo playlist.txt\n");
+        return;
+    }
 
     char name[50];
     int qtd = 0;

@@ -4,15 +4,12 @@
 #include "song.h"
 
 typedef struct playlistType playlistType;
-typedef struct cellType cellType;
 
 playlistType * createPlaylist(char * playlistName);
 
 void insertCell(playlistType * playlist, songType * song);
 
 void printPlaylist(playlistType * playlist);
-
-void freeCell(cellType * cell);
 
 void freePlaylist(playlistType * playlist);
 

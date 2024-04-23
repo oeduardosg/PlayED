@@ -3,6 +3,8 @@
 #include <string.h>
 #include "playlist.h"
 
+typedef struct cellType cellType;
+
 struct cellType {
     songType * song;
     cellType * priorCell;
@@ -51,10 +53,12 @@ void insertCell(playlistType * playlist, songType * song) {
 
 void printPlaylist(playlistType * playlist) {
 
+    if(!playlist) return;
+
     printf("  %s:\n", playlist->playlistName);
 
     if(!playlist -> firstCell) {
-        printf("Não há músicas nessa playlist.\n");
+        printf("   Não há músicas nessa playlist.\n");
         return;
     }
 
@@ -76,8 +80,11 @@ void freeCell(cellType * cell) {
 }
 
 void freePlaylist(playlistType * playlist) {
+
+    if(!playlist) return;
     
     if(!playlist -> firstCell) {
+        free(playlist -> playlistName);
         free(playlist);
         return;
     }
@@ -99,18 +106,18 @@ void freePlaylist(playlistType * playlist) {
 playlistType * readPlaylistFile(char * playlistFileName) {
 
     char playlistPath[65];
-    sprintf(playlistPath, "inputs/%s", playlistFileName);
+    sprintf(playlistPath, "entradas/%s", playlistFileName);
 
     FILE * playlistFile = fopen(playlistPath, "r");
-
-    if(!playlistFile) {
-        printf("Erro ao abrir o arquivo %s", playlistFileName);
-        return NULL;
-    }
 
     char playlistName[64];
     sscanf(playlistFileName, "%[^.].txt", playlistName);
     playlistType * playlist = createPlaylist(playlistName);
+
+    if(!playlistFile) {
+        printf("Erro ao abrir o arquivo %s\n", playlistFileName);
+        return playlist;
+    }
 
     char songName[64], singerName[64];
 

@@ -91,7 +91,7 @@ void printPeopleList(PeopleList *l){
     printf("Lista de Pessoas:\n");
 
     for(cellType *cel = l->first; cel; cel = cel->next){
-        printf("%s\n", cel->person->name);
+        printf("-%s\n", cel->person->name);
         printFriendsOf(l, cel->person->name);
         printPlaylistList(cel->person->playlists, cel->person->name);
     }
@@ -201,7 +201,15 @@ void readPeoplePlaylists(PeopleList *l){
 
     while(fscanf(playlist, "%[^;]%*c", name) == 1){
         personType *person = searchPerson(l, name);
-        
+        if(person == NULL) {
+            printf("Essa pessoa nao foi cadastrada\n");
+            fscanf(playlist, "%d%*c", &qtd);
+            for(int i = 0; i < qtd; i++){
+                if(i == qtd - 1) fscanf(playlist, "%[^\n]%*c", playlistName);
+                else fscanf(playlist, "%[^;]%*c", playlistName);
+            }
+            continue;
+        }
 
         fscanf(playlist, "%d%*c", &qtd);
         for(int i = 0; i < qtd; i++){

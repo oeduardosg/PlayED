@@ -1,2 +1,2 @@
-gabriel;2;taylor.txt;sza.txt
-eduardo;1;taylor.txt
+Gabriel;2;taylor.txt;sza.txt
+Eduardo;1;taylor.txt

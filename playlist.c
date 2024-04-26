@@ -141,7 +141,7 @@ void removeCell(playlistType * playlist, char * songOrSingerName) {
 
     cellType * checker = playlist -> firstCell;
 
-    while(checker && strcmp(getSingerName(checker -> song), songOrSingerName) && strcmp(getSongName(checker -> product), songOrSingerName)) {
+    while(checker && strcmp(getSingerName(checker -> song), songOrSingerName) && strcmp(getSongName(checker -> song), songOrSingerName)) {
         checker = checker -> nextCell;
     }
 
@@ -187,6 +187,7 @@ void clipSingerToPlaylist(playlistType * singerPlaylist, playlistType * sourcePl
         if(!strcmp(singerName, getSingerName(checker -> song))) {
             insertCell(singerPlaylist, checker -> song);
             removeCell(sourcePlaylist, getSingerName(checker -> song));
+            //FALTA RESOLVER O PROBLEMA DOS FREES EM SONGS;
         }
     }
 

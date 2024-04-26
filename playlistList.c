@@ -86,6 +86,7 @@ playlistList * sortBySinger(playlistList * originalList) {
 
             }
 
+            //CONFERIR TUDO COM GABRIEL
             insertPlaylist(sortedList, singerPlaylist);
 
         }

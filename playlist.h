@@ -15,4 +15,10 @@ void freePlaylist(playlistType * playlist);
 
 playlistType * readPlaylistFile(char * playlistFileName);
 
+int thereIsSong(playlistType * playlist);
+
+char * getFirstSingerName(playlistType * playlist);
+
+void clipSingerToPlaylist(playlistType * singerPlaylist, playlistType * sourcePlaylist, char * singerName);
+
 #endif

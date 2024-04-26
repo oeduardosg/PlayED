@@ -14,4 +14,6 @@ void printPlaylistList(playlistList *l, char *name);
 
 void freePlaylistList(playlistList *l);
 
+playlistList * sortBySinger(playlistList * originalList);
+
 #endif

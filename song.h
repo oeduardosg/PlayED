@@ -10,4 +10,8 @@ void printSong(songType * song);
 
 void freeSong(songType * song);
 
+char * getSongName(songType * song);
+
+char * getSingerName(songType * song);
+
 #endif

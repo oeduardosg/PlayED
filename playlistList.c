@@ -65,7 +65,36 @@ void freePlaylistList(playlistList *l){
     free(l);
 }
 
+playlistList * sortBySinger(playlistList * originalList) {
 
+    playlistList * sortedList = createPlaylistList();
 
+    cellType * aChecker = originalList -> first;
 
+    while(aChecker) {
 
+        while(thereIsSong(aChecker -> playlist)) {
+
+            char * singer = getFirstSingerName(aChecker -> playlist);
+            playlistType * singerPlaylist = createPlaylist(singer);
+            cellType * bChecker = aChecker;
+
+            while(bChecker) {
+
+                clipSingerToPlaylist(singerPlaylist, bChecker -> playlist, singer);
+                bChecker = bChecker -> next;
+
+            }
+
+            insertPlaylist(sortedList, singerPlaylist);
+
+        }
+
+    aChecker = aChecker -> next;
+
+    }
+
+    //FALTA REMOVER A PLAYLIST ORIGINAL!
+
+return sortedList;
+}

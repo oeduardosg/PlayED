@@ -31,3 +31,11 @@ void printSong(songType * song) {
     printf("   %s - %s", song -> songName, song -> singerName);
 
 }
+
+char * getSongName(songType * song) {
+    return song -> songName;
+}
+
+char * getSingerName(songType * song) {
+    return song -> singerName;
+}

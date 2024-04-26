@@ -131,3 +131,63 @@ playlistType * readPlaylistFile(char * playlistFileName) {
 
 return playlist;
 }
+
+void removeCell(playlistType * playlist, char * songOrSingerName) {
+
+    if(!playlist) {
+        printf("Não há produtos na lista.");
+        return;
+    }
+
+    cellType * checker = playlist -> firstCell;
+
+    while(checker && strcmp(getSingerName(checker -> song), songOrSingerName) && strcmp(getSongName(checker -> product), songOrSingerName)) {
+        checker = checker -> nextCell;
+    }
+
+    if(!checker) {
+        printf("O produto não foi encontrado.\n");
+        return;
+    }
+
+    if(checker == playlist -> firstCell) {
+        playlist -> firstCell = playlist -> firstCell -> nextCell;
+        playlist -> firstCell -> priorCell = NULL;
+        freeCell(checker);
+        return;
+    }
+
+    if(!checker -> nextCell) {
+        checker -> priorCell -> nextCell = NULL;
+        freeCell(checker);
+        return;
+    }
+
+    checker -> priorCell -> nextCell = checker -> nextCell;
+    checker -> nextCell -> priorCell = checker -> priorCell;
+
+    freeCell(checker);
+
+}
+
+
+int thereIsSong(playlistType * playlist) {
+return playlist -> firstCell -> song != NULL;
+}
+
+char * getFirstSingerName(playlistType * playlist) {
+return getSingerName(playlist -> firstCell -> song);
+}
+
+void clipSingerToPlaylist(playlistType * singerPlaylist, playlistType * sourcePlaylist, char * singerName) {
+
+    cellType * checker = sourcePlaylist -> firstCell;
+
+    while(checker) {
+        if(!strcmp(singerName, getSingerName(checker -> song))) {
+            insertCell(singerPlaylist, checker -> song);
+            removeCell(sourcePlaylist, getSingerName(checker -> song));
+        }
+    }
+
+}

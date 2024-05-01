@@ -9,6 +9,7 @@ struct person{
     char *name;
     PeopleList *friends;
     playlistList *playlists;
+    int printed;
 };
 
 personType* createPerson(char *name){
@@ -17,6 +18,7 @@ personType* createPerson(char *name){
     p->name = strdup(name);
     p->friends = createPeopleList();
     p->playlists = createPlaylistList();
+    p->printed = 0;
 
     return p;
 }
@@ -156,7 +158,7 @@ void printFriendsOf(PeopleList *l, char *name){
 }
 
 PeopleList* readFriends(){
-    FILE *amizade = fopen("entradas/amizade.txt", "r");
+    FILE *amizade = fopen("Entrada/amizade.txt", "r");
 
     if(!amizade) {
         printf("Erro ao abrir o arquivo amizade.txt\n");
@@ -166,17 +168,16 @@ PeopleList* readFriends(){
     PeopleList *lista = createPeopleList();
 
     char name1[50], name2[50];
+
+    char key = ';';
+    while(key == ';'){
+        fscanf(amizade, "%[^; ^\n]%c", name1, &key);
+        personType *p1 = createPerson(name1);
+        insertPerson(lista, p1);
+    }
     
     while(fscanf(amizade, "%[^;]%*c", name1) == 1){
         fscanf(amizade, "%[^\n]%*c", name2);
-        if(searchPerson(lista, name1) == NULL){
-            personType *p1 = createPerson(name1);
-            insertPerson(lista, p1);
-        }
-        if(searchPerson(lista, name2) == NULL){
-            personType *p2 = createPerson(name2);
-            insertPerson(lista, p2);
-        }
         addFriend(lista, name1, name2);
     }
 
@@ -188,7 +189,7 @@ PeopleList* readFriends(){
 void readPeoplePlaylists(PeopleList *l){
     if(!l) return;
 
-    FILE *playlist = fopen("entradas/playlist.txt", "r");
+    FILE *playlist = fopen("Entrada/playlist.txt", "r");
 
     if(!playlist){
         printf("Erro ao abrir o arquivo playlist.txt\n");
@@ -221,4 +222,20 @@ void readPeoplePlaylists(PeopleList *l){
     }
 
     fclose(playlist);
+}
+
+
+void friendsSimilarities(PeopleList *list){
+    if(list == NULL) return;
+    cellType *cell1 = NULL, *cell2 = NULL;
+    int n = 0;
+
+    for(cell1 = list->first; cell1; cell1 = cell1->next){
+        for(cell2 = cell1->person->friends->first, n = 0; cell2; cell2 = cell2->next){
+            n = playlistListSimilarities(cell1->person->playlists, cell2->person->playlists);
+            if(!cell2->person->printed)
+                printf("%s;%s;%d\n", cell1->person->name, cell2->person->name, n);
+        }
+        cell1->person->printed = 1;
+    }
 }

@@ -16,4 +16,6 @@ void freePlaylistList(playlistList *l);
 
 playlistList * sortBySinger(playlistList * originalList);
 
+int playlistListSimilarities(playlistList *list1, playlistList *list2);
+
 #endif

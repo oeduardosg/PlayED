@@ -106,7 +106,7 @@ void freePlaylist(playlistType * playlist) {
 playlistType * readPlaylistFile(char * playlistFileName) {
 
     char playlistPath[65];
-    sprintf(playlistPath, "entradas/%s", playlistFileName);
+    sprintf(playlistPath, "Entrada/%s", playlistFileName);
 
     FILE * playlistFile = fopen(playlistPath, "r");
 
@@ -179,6 +179,10 @@ char * getFirstSingerName(playlistType * playlist) {
 return getSingerName(playlist -> firstCell -> song);
 }
 
+char * getPlaylistName(playlistType *playlist){
+return playlist -> playlistName;
+}
+
 void clipSingerToPlaylist(playlistType * singerPlaylist, playlistType * sourcePlaylist, char * singerName) {
 
     cellType * checker = sourcePlaylist -> firstCell;
@@ -191,4 +195,19 @@ void clipSingerToPlaylist(playlistType * singerPlaylist, playlistType * sourcePl
         }
     }
 
+}
+
+int playlistSimilarities(playlistType *playlist1, playlistType *playlist2){
+    if(playlist1 == NULL || playlist2 == NULL) return 0;
+     
+    cellType *cell1 = NULL, *cell2 = NULL;
+    int n = 0;
+
+    for(cell1 = playlist1->firstCell; cell1; cell1 = cell1->nextCell){
+        for(cell2 = playlist2->firstCell; cell2; cell2 = cell2->nextCell){
+            if(!strcmp(getSongName(cell1->song), getSongName(cell2->song))) n++;
+        }
+    }
+
+    return n;
 }

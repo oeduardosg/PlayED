@@ -1,2 +1,0 @@
-Gabriel;2;taylor.txt;sza.txt
-Eduardo;1;taylor.txt

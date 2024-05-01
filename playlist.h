@@ -19,6 +19,10 @@ int thereIsSong(playlistType * playlist);
 
 char * getFirstSingerName(playlistType * playlist);
 
+char * getPlaylistName(playlistType *playlist);
+
 void clipSingerToPlaylist(playlistType * singerPlaylist, playlistType * sourcePlaylist, char * singerName);
+
+int playlistSimilarities(playlistType *playlist1, playlistType *playlist2);
 
 #endif

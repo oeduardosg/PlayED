@@ -99,3 +99,19 @@ playlistList * sortBySinger(playlistList * originalList) {
 
 return sortedList;
 }
+
+int playlistListSimilarities(playlistList *list1, playlistList *list2){
+    if(list1 == NULL || list2 == NULL) return 0;
+
+    cellType *cell1 = NULL, *cell2 = NULL;
+    int n = 0;
+
+    for(cell1 = list1->first; cell1; cell1 = cell1->next){
+        for(cell2 = list2->first; cell2; cell2 = cell2->next){
+            if(!strcmp(getPlaylistName(cell1->playlist), getPlaylistName(cell2->playlist)))
+                n += playlistSimilarities(cell1->playlist, cell2->playlist);
+        }
+    }
+
+    return n;
+}

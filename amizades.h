@@ -40,4 +40,6 @@ PeopleList* readFriends();
 
 void readPeoplePlaylists(PeopleList *l);
 
+void friendsSimilarities(PeopleList *list);
+
 #endif

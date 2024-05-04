@@ -80,7 +80,7 @@ playlistList * sortBySinger(playlistList * originalList) {
             cellType * bChecker = aChecker;
 
             while(bChecker) {
-
+                
                 clipSingerToPlaylist(singerPlaylist, bChecker -> playlist, singer);
                 bChecker = bChecker -> next;
 
@@ -95,6 +95,7 @@ playlistList * sortBySinger(playlistList * originalList) {
 
     }
 
+    freePlaylistList(originalList);
     //FALTA REMOVER A PLAYLIST ORIGINAL!
 
 return sortedList;

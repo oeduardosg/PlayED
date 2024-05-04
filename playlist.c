@@ -72,9 +72,9 @@ void printPlaylist(playlistType * playlist) {
 
 }
 
-void freeCell(cellType * cell) {
+void freeCell(cellType * cell, int removeSong) {
 
-    freeSong(cell -> song);
+    if(removeSong) freeSong(cell -> song);
     free(cell);
 
 }
@@ -95,7 +95,7 @@ void freePlaylist(playlistType * playlist) {
     while(checker) {
         toBeFreed = checker;
         checker = checker -> nextCell;
-        freeCell(toBeFreed); 
+        freeCell(toBeFreed, 1); 
     }
 
     free(playlist -> playlistName);
@@ -132,7 +132,7 @@ playlistType * readPlaylistFile(char * playlistFileName) {
 return playlist;
 }
 
-void removeCell(playlistType * playlist, char * songOrSingerName) {
+void removeCell(playlistType * playlist, char * songOrSingerName, int removeSong) {
 
     if(!playlist) {
         printf("Não há produtos na lista.");
@@ -149,30 +149,29 @@ void removeCell(playlistType * playlist, char * songOrSingerName) {
         printf("O produto não foi encontrado.\n");
         return;
     }
-
+   
     if(checker == playlist -> firstCell) {
         playlist -> firstCell = playlist -> firstCell -> nextCell;
-        playlist -> firstCell -> priorCell = NULL;
-        freeCell(checker);
+        freeCell(checker, removeSong);
         return;
     }
 
     if(!checker -> nextCell) {
-        checker -> priorCell -> nextCell = NULL;
-        freeCell(checker);
+        if(checker -> priorCell) checker -> priorCell -> nextCell = NULL;
+        freeCell(checker, removeSong);
         return;
     }
 
     checker -> priorCell -> nextCell = checker -> nextCell;
     checker -> nextCell -> priorCell = checker -> priorCell;
 
-    freeCell(checker);
+    freeCell(checker, removeSong);
 
 }
 
 
 int thereIsSong(playlistType * playlist) {
-return playlist -> firstCell -> song != NULL;
+return playlist -> firstCell != NULL;
 }
 
 char * getFirstSingerName(playlistType * playlist) {
@@ -183,17 +182,38 @@ char * getPlaylistName(playlistType *playlist){
 return playlist -> playlistName;
 }
 
+int thereIsThisSong(playlistType * playlist, char * songName){
+
+    for(cellType * checker = playlist -> firstCell; checker; checker = checker -> nextCell){
+        if(!strcmp(songName, getSongName(checker -> song))) return 1;
+    }
+
+return 0;
+}
+
 void clipSingerToPlaylist(playlistType * singerPlaylist, playlistType * sourcePlaylist, char * singerName) {
 
     cellType * checker = sourcePlaylist -> firstCell;
+    cellType * aux = NULL;
 
     while(checker) {
-        if(!strcmp(singerName, getSingerName(checker -> song))) {
-            insertCell(singerPlaylist, checker -> song);
-            removeCell(sourcePlaylist, getSingerName(checker -> song));
+
+        aux = checker;
+        checker = checker -> nextCell;
+
+        if(!strcmp(singerName, getSingerName(aux -> song))) {
+            if(thereIsThisSong(singerPlaylist, getSongName(aux -> song))) 
+                removeCell(sourcePlaylist, getSingerName(aux -> song), 1);
+            else {
+                insertCell(singerPlaylist, aux -> song);
+                removeCell(sourcePlaylist, getSingerName(aux -> song), 0);
+            }
+            
             //FALTA RESOLVER O PROBLEMA DOS FREES EM SONGS;
         }
+
     }
+
 
 }
 

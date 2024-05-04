@@ -7,6 +7,7 @@ int main() {
     PeopleList * list = readFriends();
     readPeoplePlaylists(list);
 
+    sortPlayListsPeople(list);
     printPeopleList(list);
 
     friendsSimilarities(list);

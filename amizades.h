@@ -42,4 +42,6 @@ void readPeoplePlaylists(PeopleList *l);
 
 void friendsSimilarities(PeopleList *list);
 
+void sortPlayListsPeople(PeopleList *list);
+
 #endif

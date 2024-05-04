@@ -239,3 +239,11 @@ void friendsSimilarities(PeopleList *list){
         cell1->person->printed = 1;
     }
 }
+
+void sortPlayListsPeople(PeopleList *list){
+    if(list == NULL) return;
+
+    for(cellType *cel = list->first; cel; cel = cel->next){
+        cel->person->playlists = sortBySinger(cel->person->playlists);
+    }
+}

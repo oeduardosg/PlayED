@@ -51,9 +51,13 @@ void insertCell(playlistType * playlist, songType * song) {
 
 }
 
-void printPlaylist(playlistType * playlist) {
+void printPlaylist(playlistType * playlist, char *name) {
 
     if(!playlist) return;
+
+    char fileName[100];  
+    sprintf(fileName, "Saida/%s/%s.txt", name, playlist->playlistName);
+    FILE *file = fopen(fileName, "w");
 
     printf("  %s:\n", playlist->playlistName);
 
@@ -65,10 +69,11 @@ void printPlaylist(playlistType * playlist) {
     cellType * checker = playlist -> firstCell;
 
     while(checker) {
-        printSong(checker -> song);
-        printf("\n");
+        printSong(checker -> song, file);
         checker = checker -> nextCell;
     }
+
+    fclose(file);
 
 }
 
@@ -121,8 +126,8 @@ playlistType * readPlaylistFile(char * playlistFileName) {
 
     char songName[64], singerName[64];
 
-    while(fscanf(playlistFile, "%[^-]- %[^\n]\n", songName, singerName) == 2) {
-        songName[strlen(songName) - 1] = '\0';
+    while(fscanf(playlistFile, "%[^-]- %[^\n]\n", singerName, songName) == 2) {
+        singerName[strlen(singerName) - 1] = '\0';
         songType * song = createSong(songName, singerName);
         insertCell(playlist, song);
     }

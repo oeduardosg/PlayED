@@ -1,0 +1,4 @@
+Eduardo;Gabriel;5
+Eduardo;Raony;7
+Gabriel;Aline;0
+Gabriel;Raony;6

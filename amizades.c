@@ -189,7 +189,7 @@ PeopleList* readFriends(){
 void readPeoplePlaylists(PeopleList *l){
     if(!l) return;
 
-    FILE *playlist = fopen("Entrada/playlist.txt", "r");
+    FILE *playlist = fopen("Entrada/playlists.txt", "r");
 
     if(!playlist){
         printf("Erro ao abrir o arquivo playlist.txt\n");
@@ -230,14 +230,18 @@ void friendsSimilarities(PeopleList *list){
     cellType *cell1 = NULL, *cell2 = NULL;
     int n = 0;
 
+    FILE *file = fopen("Saida/similaridades.txt", "w");
+
     for(cell1 = list->first; cell1; cell1 = cell1->next){
         for(cell2 = cell1->person->friends->first, n = 0; cell2; cell2 = cell2->next){
             n = playlistListSimilarities(cell1->person->playlists, cell2->person->playlists);
             if(!cell2->person->printed)
-                printf("%s;%s;%d\n", cell1->person->name, cell2->person->name, n);
+                fprintf(file, "%s;%s;%d\n", cell1->person->name, cell2->person->name, n);
         }
         cell1->person->printed = 1;
     }
+
+    fclose(file);
 }
 
 void sortPlayListsPeople(PeopleList *list){

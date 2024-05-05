@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 #include "playlistList.h"
 
 typedef struct cellType cellType;
@@ -44,8 +45,12 @@ void printPlaylistList(playlistList *l, char *name){
     }
     printf("Playlists de %s:\n", name);
 
+    char folderName[100];
+
     for(cellType *cel = l->first; cel; cel = cel->next){
-        printPlaylist(cel->playlist);
+        sprintf(folderName, "Saida/%s", name);
+        mkdir(folderName, S_IRWXU);
+        printPlaylist(cel->playlist, name);
     }
 
     printf("\n");

@@ -8,11 +8,11 @@ typedef struct playlistList playlistList;
 
 playlistList* createPlaylistList();
 
-void insertPlaylist(playlistList *l, playlistType *p);
+void insertPlaylist(playlistList * playlistList, playlistType * playlistToAdd);
 
-void printPlaylistList(playlistList *l, char *name);
+void filePrintPlaylistList(playlistList * playlistList, char * playlistListName);
 
-void freePlaylistList(playlistList *l);
+void freePlaylistList(playlistList * playlistList);
 
 playlistList * sortBySinger(playlistList * originalList);
 

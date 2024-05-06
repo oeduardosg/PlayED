@@ -95,7 +95,7 @@ void printPeopleList(PeopleList *l){
     for(cellType *cel = l->first; cel; cel = cel->next){
         printf("-%s\n", cel->person->name);
         printFriendsOf(l, cel->person->name);
-        printPlaylistList(cel->person->playlists, cel->person->name);
+        filePrintPlaylistList(cel->person->playlists, cel->person->name);
     }
 }
 

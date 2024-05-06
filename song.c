@@ -26,7 +26,7 @@ void freeSong(songType * song) {
 
 }
 
-void printSong(songType * song, FILE* file) {
+void filePrintSong(songType * song, FILE* file) {
 
     fprintf(file, "%s - %s\n", song -> singerName, song -> songName);
 

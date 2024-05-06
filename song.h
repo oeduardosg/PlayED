@@ -5,7 +5,7 @@ typedef struct songType songType;
 
 songType * createSong(char * songName, char * singerName);
 
-void printSong(songType * song, FILE *file);
+void filePrintSong(songType * song, FILE *file);
 
 void freeSong(songType * song);
 

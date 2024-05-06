@@ -69,7 +69,7 @@ void printPlaylist(playlistType * playlist, char *name) {
     cellType * checker = playlist -> firstCell;
 
     while(checker) {
-        printSong(checker -> song, file);
+        filePrintSong(checker -> song, file);
         checker = checker -> nextCell;
     }
 
@@ -213,8 +213,6 @@ void clipSingerToPlaylist(playlistType * singerPlaylist, playlistType * sourcePl
                 insertCell(singerPlaylist, aux -> song);
                 removeCell(sourcePlaylist, getSingerName(aux -> song), 0);
             }
-            
-            //FALTA RESOLVER O PROBLEMA DOS FREES EM SONGS;
         }
 
     }

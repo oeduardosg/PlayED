@@ -251,3 +251,22 @@ void sortPlayListsPeople(PeopleList *list){
         cel->person->playlists = sortBySinger(cel->person->playlists);
     }
 }
+
+void filePrintRefactored(PeopleList * list) {
+
+    if(!list) return;
+
+    FILE * file = fopen("Saida/played-refatorada.txt", "w");
+
+    cellType * runner = list -> first;
+
+    while(runner) {
+        fprintf(file, "%s;", runner -> person -> name);
+        printInFilePlaylistList(runner -> person -> playlists, file);
+        fprintf(file, "\n");
+        runner = runner -> next;
+    }
+
+    fclose(file);
+
+}

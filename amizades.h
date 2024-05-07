@@ -44,4 +44,6 @@ void friendsSimilarities(PeopleList *list);
 
 void sortPlayListsPeople(PeopleList *list);
 
+void filePrintRefactored(PeopleList * list);
+
 #endif

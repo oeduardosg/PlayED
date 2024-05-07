@@ -18,4 +18,8 @@ playlistList * sortBySinger(playlistList * originalList);
 
 int playlistListSimilarities(playlistList * list1, playlistList * list2);
 
+void createPlaylistListFile(playlistList * playlistList);
+
+void printInFilePlaylistList(playlistList * playlistList, FILE * file);
+
 #endif

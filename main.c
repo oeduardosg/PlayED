@@ -11,10 +11,10 @@ int main() {
     printPeopleList(list);
 
     friendsSimilarities(list);
+    filePrintRefactored(list);
     
     freePeople(list);
     freePeopleList(list);
-
 
     return 0;
 

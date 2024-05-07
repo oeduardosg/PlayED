@@ -123,3 +123,26 @@ int playlistListSimilarities(playlistList * list1, playlistList * list2){
 
     return n;
 }
+
+void printInFilePlaylistList(playlistList * playlistList, FILE * file) {
+
+    if(!playlistList) return;
+
+    cellType * runner = playlistList -> first;
+    int playlistsQuantity = 0;
+
+    while(runner) {
+        playlistsQuantity++;
+        runner = runner -> next;
+    }
+
+    runner = playlistList -> first;
+    
+    fprintf(file, "%d", playlistsQuantity);
+
+    while(runner) {
+        fprintf(file, ";%s.txt", getPlaylistName(runner -> playlist));
+        runner = runner -> next;
+    }
+
+}

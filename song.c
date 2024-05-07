@@ -39,3 +39,19 @@ char * getSongName(songType * song) {
 char * getSingerName(songType * song) {
     return song -> singerName;
 }
+
+void clipSongData(char * songName, char * singerName, char * songString) {
+    
+    for(int i = 0; songString[i] != '\0'; i++) {
+        if(songString[i] == ' ' && songString[i + 1] == '-') {
+            for(int j = 0; j < i; j++) {
+                singerName[j] = songString[j];
+            }
+            singerName[i] = '\0';
+            char * start = songString + i + 3;
+            strcpy(songName, start);
+            return;
+        }
+    }
+
+}

@@ -110,12 +110,12 @@ void freePlaylist(playlistType * playlist) {
 
 playlistType * readPlaylistFile(char * playlistFileName) {
 
-    char playlistPath[65];
+    char playlistPath[256];
     sprintf(playlistPath, "Entrada/%s", playlistFileName);
 
     FILE * playlistFile = fopen(playlistPath, "r");
 
-    char playlistName[64];
+    char playlistName[256];
     sscanf(playlistFileName, "%[^.].txt", playlistName);
     playlistType * playlist = createPlaylist(playlistName);
 
@@ -124,10 +124,10 @@ playlistType * readPlaylistFile(char * playlistFileName) {
         return playlist;
     }
 
-    char songName[64], singerName[64];
+    char songString[512], songName[256], singerName[256];
 
-    while(fscanf(playlistFile, "%[^-]- %[^\n]\n", singerName, songName) == 2) {
-        singerName[strlen(singerName) - 1] = '\0';
+    while(fscanf(playlistFile, "%[^\n]\n", songString) == 1) {
+        clipSongData(songName, singerName, songString);
         songType * song = createSong(songName, singerName);
         insertCell(playlist, song);
     }

@@ -13,4 +13,6 @@ char * getSongName(songType * song);
 
 char * getSingerName(songType * song);
 
+void clipSongData(char * songName, char * singerName, char * songString);
+
 #endif

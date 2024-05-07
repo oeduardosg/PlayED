@@ -19,18 +19,18 @@ struct cellType{
 
 playlistList * createPlaylistList(){
 
-    playlistList * playlistList = malloc(sizeof(playlistList));
+    playlistList * list = malloc(sizeof(playlistList));
 
-    playlistList -> first = playlistList -> last = NULL;
+    list -> first = list -> last = NULL;
 
-    return playlistList;
+    return list;
 }
 
 void insertPlaylist(playlistList * playlistList, playlistType * playlistToAdd){
 
     cellType * cell = malloc(sizeof(cellType));
 
-    cell -> playlist = playlistList;
+    cell -> playlist = playlistToAdd;
 
     if(playlistList -> last != NULL) playlistList -> last -> next = cell;
     cell -> next = NULL;
@@ -107,17 +107,17 @@ playlistList * sortBySinger(playlistList * originalList) {
 return sortedList;
 }
 
-int playlistListSimilarities(playlistList *list1, playlistList *list2){
+int playlistListSimilarities(playlistList * list1, playlistList * list2){
 
     if(list1 == NULL || list2 == NULL) return 0;
 
-    cellType *celll1 = NULL, *celll2 = NULL;
+    cellType * cell1 = NULL, * cell2 = NULL;
     int n = 0;
 
-    for(celll1 = list1->first; celll1; celll1 = celll1->next){
-        for(celll2 = list2->first; celll2; celll2 = celll2->next){
-            if(!strcmp(getPlaylistName(celll1->playlist), getPlaylistName(celll2->playlist)))
-                n += playlistSimilarities(celll1->playlist, celll2->playlist);
+    for(cell1 = list1 -> first; cell1; cell1 = cell1 -> next){
+        for(cell2 = list2 -> first; cell2; cell2 = cell2 -> next){
+            if(!strcmp(getPlaylistName(cell1 -> playlist), getPlaylistName(cell2 -> playlist)))
+                n += playlistSimilarities(cell1 -> playlist, cell2 -> playlist);
         }
     }
 

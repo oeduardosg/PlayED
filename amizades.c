@@ -270,3 +270,28 @@ void filePrintRefactored(PeopleList * list) {
     fclose(file);
 
 }
+
+void mashUpFriendsPlaylists(PeopleList * list) {
+
+    if(!list) {
+        printf("A lista a ser feito mashup não existe.\n");
+        return;
+    }
+
+    cellType * runner = list -> first;
+
+    while(runner) {
+
+        cellType * runnerFriends = runner -> person -> friends -> first;
+
+        while(runnerFriends) {
+
+            mashUpPlaylistLists(runner -> person -> playlists, runnerFriends -> person -> playlists);
+            runnerFriends = runnerFriends -> next;
+
+        }
+        
+        runner = runner -> next;
+    }
+
+}

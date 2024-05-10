@@ -14,6 +14,7 @@ struct cellType {
 
 struct playlistType {
     char * playlistName;
+    int mashup;
     cellType * firstCell;
     cellType * lastCell;
 };
@@ -25,6 +26,7 @@ playlistType * createPlaylist(char * playlistName) {
     playlistType * playlist = (playlistType *) calloc(1, sizeof(playlistType));
 
     playlist -> playlistName = strdup(playlistName);
+    playlist -> mashup = 0;
     playlist -> firstCell = NULL;
     playlist -> lastCell = NULL;
 
@@ -97,10 +99,13 @@ void freePlaylist(playlistType * playlist) {
     cellType * checker = playlist -> firstCell;
     cellType * toBeFreed;
 
+    int songRemove = 1;
+    if(isMashup(playlist)) songRemove = 0;
+
     while(checker) {
         toBeFreed = checker;
         checker = checker -> nextCell;
-        freeCell(toBeFreed, 1); 
+        freeCell(toBeFreed, songRemove); 
     }
 
     free(playlist -> playlistName);
@@ -233,4 +238,77 @@ int playlistSimilarities(playlistType *playlist1, playlistType *playlist2){
     }
 
     return n;
+}
+
+int isMashup(playlistType * playlist) {
+return playlist -> mashup == 1;
+}
+
+playlistType * mashUpPlaylist(playlistType * original, playlistType * toMashup) {
+
+    original -> mashup = 0;
+
+    playlistType * mashup = createPlaylist(original -> playlistName);
+    mashup -> mashup = 1;
+
+    cellType * runner1 = original -> firstCell;
+
+    while(runner1) {
+
+        insertCell(mashup, runner1 -> song);
+        runner1 = runner1 -> nextCell;
+
+    }
+
+    cellType * runner2 = toMashup -> firstCell;
+    int alreadyExists = 0;
+
+    while(runner2) {
+
+        runner1 = original -> firstCell;
+
+        while(runner1) {
+
+            if(!strcmp(getSongName(runner1 -> song), getSongName(runner2 -> song))) alreadyExists = 1;
+            runner1 = runner1 -> nextCell;
+
+        }
+
+        if(!alreadyExists) {
+            insertCell(mashup, runner2 -> song);
+        }
+
+        alreadyExists = 0;
+
+        runner2 = runner2 -> nextCell;
+    }
+
+return mashup;
+}
+
+void addToFrom(playlistType * dest, playlistType * src) {
+
+    cellType * songToAdd = src -> firstCell;
+    int alreadyExists = 0;
+
+    while(songToAdd) {
+
+        cellType * checkInDest = dest -> firstCell;
+
+        while(checkInDest) {
+
+            if(!strcmp(getSongName(songToAdd -> song), getSongName(checkInDest -> song))) alreadyExists = 1;
+            checkInDest = checkInDest -> nextCell;
+
+        }
+
+        if(!alreadyExists) {
+            insertCell(dest, songToAdd -> song);
+        }
+
+        alreadyExists = 0;
+
+        songToAdd = songToAdd -> nextCell;
+    }
+
 }

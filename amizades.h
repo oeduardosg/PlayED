@@ -46,4 +46,6 @@ void sortPlayListsPeople(PeopleList *list);
 
 void filePrintRefactored(PeopleList * list);
 
+void mashUpFriendsPlaylists(PeopleList * list);
+
 #endif

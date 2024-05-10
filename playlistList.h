@@ -22,4 +22,6 @@ void createPlaylistListFile(playlistList * playlistList);
 
 void printInFilePlaylistList(playlistList * playlistList, FILE * file);
 
+void mashUpPlaylistLists(playlistList * list1, playlistList * list2);
+
 #endif

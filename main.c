@@ -12,6 +12,9 @@ int main() {
 
     friendsSimilarities(list);
     filePrintRefactored(list);
+
+    mashUpFriendsPlaylists(list);
+    printPeopleList(list);
     
     freePeople(list);
     freePeopleList(list);

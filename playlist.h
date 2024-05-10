@@ -25,4 +25,10 @@ void clipSingerToPlaylist(playlistType * singerPlaylist, playlistType * sourcePl
 
 int playlistSimilarities(playlistType *playlist1, playlistType *playlist2);
 
+int isMashup(playlistType * playlist);
+
+playlistType * mashUpPlaylist(playlistType * original, playlistType * toMashup);
+
+void addToFrom(playlistType * toAdd, playlistType * source);
+
 #endif

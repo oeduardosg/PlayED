@@ -146,3 +146,44 @@ void printInFilePlaylistList(playlistList * playlistList, FILE * file) {
     }
 
 }
+
+void mashUpPlaylistLists(playlistList * list1, playlistList * list2) {
+
+    int foundMashup = 0;
+    cellType * runner1 = list1 -> first;
+
+    while(runner1 && isMashup(runner1 -> playlist) != 1) {
+
+        cellType * runner2 = list2 -> first;
+
+        while(runner2 && isMashup(runner1 -> playlist) != 1) {
+
+            if(!strcmp(getPlaylistName(runner1 -> playlist), getPlaylistName(runner2 -> playlist)) && !isMashup(runner1 -> playlist)) {
+
+                cellType * runner3 = list1 -> first;
+
+                while(runner3) {
+
+                    if(!strcmp(getPlaylistName(runner2 -> playlist), getPlaylistName(runner3 -> playlist)) && isMashup(runner3 -> playlist)) {
+                        addToFrom(runner3 -> playlist, runner2 -> playlist);
+                        foundMashup = 1;
+                    }
+
+                    runner3 = runner3 -> next;
+                }
+                
+                if(!foundMashup) {
+                    playlistType * mashup = mashUpPlaylist(runner1 -> playlist, runner2 -> playlist);
+                    insertPlaylist(list1, mashup);
+                }
+
+                foundMashup = 0;
+            }
+
+            runner2 = runner2 -> next;
+        }
+
+        runner1 = runner1 -> next;
+    }
+
+}

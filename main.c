@@ -8,13 +8,11 @@ int main() {
     readPeoplePlaylists(list);
 
     sortPlayListsPeople(list);
+    mashUpFriendsPlaylists(list);
     printPeopleList(list);
 
     friendsSimilarities(list);
     filePrintRefactored(list);
-
-    mashUpFriendsPlaylists(list);
-    printPeopleList(list);
     
     freePeople(list);
     freePeopleList(list);

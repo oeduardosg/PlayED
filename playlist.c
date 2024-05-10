@@ -58,7 +58,12 @@ void printPlaylist(playlistType * playlist, char *name) {
     if(!playlist) return;
 
     char fileName[100];  
-    sprintf(fileName, "Saida/%s/%s.txt", name, playlist->playlistName);
+    if(isMashup(playlist)) {
+        sprintf(fileName, "Saida/%s/%s-merge.txt", name, playlist->playlistName);
+    }
+    else {
+        sprintf(fileName, "Saida/%s/%s.txt", name, playlist->playlistName);
+    }
     FILE *file = fopen(fileName, "w");
 
     printf("  %s:\n", playlist->playlistName);

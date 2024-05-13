@@ -14,7 +14,7 @@ struct cellType {
 
 struct playlistType {
     char * playlistName;
-    int mashup;
+    int match;
     cellType * firstCell;
     cellType * lastCell;
 };
@@ -26,7 +26,7 @@ playlistType * createPlaylist(char * playlistName) {
     playlistType * playlist = (playlistType *) calloc(1, sizeof(playlistType));
 
     playlist -> playlistName = strdup(playlistName);
-    playlist -> mashup = 0;
+    playlist -> match = 0;
     playlist -> firstCell = NULL;
     playlist -> lastCell = NULL;
 
@@ -58,8 +58,8 @@ void printPlaylist(playlistType * playlist, char *name) {
     if(!playlist) return;
 
     char fileName[100];  
-    if(isMashup(playlist)) {
-        sprintf(fileName, "Saida/%s/%s-merge.txt", name, playlist->playlistName);
+    if(isMatch(playlist)) {
+        sprintf(fileName, "Saida/%s/Match/%s-match.txt", name, playlist->playlistName);
     }
     else {
         sprintf(fileName, "Saida/%s/%s.txt", name, playlist->playlistName);
@@ -105,7 +105,7 @@ void freePlaylist(playlistType * playlist) {
     cellType * toBeFreed;
 
     int songRemove = 1;
-    if(isMashup(playlist)) songRemove = 0;
+    if(isMatch(playlist)) songRemove = 0;
 
     while(checker) {
         toBeFreed = checker;
@@ -245,42 +245,35 @@ int playlistSimilarities(playlistType *playlist1, playlistType *playlist2){
     return n;
 }
 
-int isMashup(playlistType * playlist) {
-return playlist -> mashup == 1;
+int isMatch(playlistType * playlist) {
+return playlist -> match == 1;
 }
 
-playlistType * mashUpPlaylist(playlistType * original, playlistType * toMashup) {
+playlistType * matchPlaylist(playlistType * original, playlistType * toMatch) {
 
-    original -> mashup = 0;
+    original -> match = 0;
 
-    playlistType * mashup = createPlaylist(original -> playlistName);
-    mashup -> mashup = 1;
+    playlistType * match = createPlaylist(original -> playlistName);
+    match -> match = 1;
 
     cellType * runner1 = original -> firstCell;
 
     while(runner1) {
 
-        insertCell(mashup, runner1 -> song);
+        insertCell(match, runner1 -> song);
         runner1 = runner1 -> nextCell;
 
     }
 
-    cellType * runner2 = toMashup -> firstCell;
+    cellType * runner2 = toMatch -> firstCell;
     int alreadyExists = 0;
 
     while(runner2) {
 
         runner1 = original -> firstCell;
 
-        while(runner1) {
-
-            if(!strcmp(getSongName(runner1 -> song), getSongName(runner2 -> song))) alreadyExists = 1;
-            runner1 = runner1 -> nextCell;
-
-        }
-
-        if(!alreadyExists) {
-            insertCell(mashup, runner2 -> song);
+        if(!thereIsThisSong(original, getSongName(runner2 -> song))) {
+            insertCell(match, runner2 -> song);
         }
 
         alreadyExists = 0;
@@ -288,7 +281,7 @@ playlistType * mashUpPlaylist(playlistType * original, playlistType * toMashup) 
         runner2 = runner2 -> nextCell;
     }
 
-return mashup;
+return match;
 }
 
 void addToFrom(playlistType * dest, playlistType * src) {

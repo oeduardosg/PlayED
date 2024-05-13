@@ -1,0 +1,4 @@
+Eduardo;4;Taylor Swift.txt;Dua Lipa.txt;Olivia Rodrigo.txt;The Weeknd.txt
+Gabriel;3;Taylor Swift.txt;Olivia Rodrigo.txt;The Weeknd.txt
+Aline;0
+Raony;5;Taylor Swift.txt;Olivia Rodrigo.txt;SZA.txt;Dua Lipa.txt;The Weeknd.txt

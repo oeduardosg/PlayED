@@ -4,24 +4,24 @@
 #include <stdio.h>
 #include "playlist.h"
 
-typedef struct playlistList playlistList;
+typedef struct playlistList playlistListType;
 
-playlistList* createPlaylistList();
+playlistListType* createPlaylistList();
 
-void insertPlaylist(playlistList * playlistList, playlistType * playlistToAdd);
+void insertPlaylist(playlistListType * playlistList, playlistType * playlistToAdd);
 
-void filePrintPlaylistList(playlistList * playlistList, char * playlistListName);
+void filePrintPlaylistList(playlistListType * playlistList, char * playlistListName);
 
-void freePlaylistList(playlistList * playlistList);
+void freePlaylistList(playlistListType * playlistList);
 
-playlistList * sortBySinger(playlistList * originalList);
+playlistListType * sortBySinger(playlistListType * originalList);
 
-int playlistListSimilarities(playlistList * list1, playlistList * list2);
+int playlistListSimilarities(playlistListType * list1, playlistListType * list2);
 
-void createPlaylistListFile(playlistList * playlistList);
+void createPlaylistListFile(playlistListType * playlistList);
 
-void printInFilePlaylistList(playlistList * playlistList, FILE * file);
+void printInFilePlaylistList(playlistListType * playlistList, FILE * file);
 
-void mashUpPlaylistLists(playlistList * list1, playlistList * list2);
+void matchPlaylistLists(playlistListType * list1, playlistListType * list2);
 
 #endif

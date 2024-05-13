@@ -8,7 +8,7 @@
 struct person{
     char *name;
     PeopleList *friends;
-    playlistList *playlists;
+    playlistListType *playlists;
     int printed;
 };
 
@@ -89,7 +89,8 @@ void removePerson(PeopleList *l, char *name){
 
 void printPeopleList(PeopleList *l){
     if(!l) return;
-    
+
+
     printf("Lista de Pessoas:\n");
 
     for(cellType *cel = l->first; cel; cel = cel->next){
@@ -271,10 +272,10 @@ void filePrintRefactored(PeopleList * list) {
 
 }
 
-void mashUpFriendsPlaylists(PeopleList * list) {
+void matchFriendsPlaylists(PeopleList * list) {
 
     if(!list) {
-        printf("A lista a ser feito mashup não existe.\n");
+        printf("A lista a ser feito match não existe.\n");
         return;
     }
 
@@ -286,7 +287,7 @@ void mashUpFriendsPlaylists(PeopleList * list) {
 
         while(runnerFriends) {
 
-            mashUpPlaylistLists(runner -> person -> playlists, runnerFriends -> person -> playlists);
+            matchPlaylistLists(runner -> person -> playlists, runnerFriends -> person -> playlists);
             runnerFriends = runnerFriends -> next;
 
         }

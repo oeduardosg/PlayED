@@ -17,16 +17,16 @@ struct cellType{
     cellType * prior;
 };
 
-playlistList * createPlaylistList(){
+playlistListType * createPlaylistList(){
 
-    playlistList * list = malloc(sizeof(playlistList));
+    playlistListType * playlist = malloc(sizeof(playlistListType));
 
-    list -> first = list -> last = NULL;
+    playlist -> first = playlist -> last = NULL;
 
-    return list;
+    return playlist;
 }
 
-void insertPlaylist(playlistList * playlistList, playlistType * playlistToAdd){
+void insertPlaylist(playlistListType * playlistList, playlistType * playlistToAdd){
 
     cellType * cell = malloc(sizeof(cellType));
 
@@ -40,7 +40,7 @@ void insertPlaylist(playlistList * playlistList, playlistType * playlistToAdd){
     playlistList -> last = cell;
 }
 
-void filePrintPlaylistList(playlistList * playlistList, char * playlistListName){
+void filePrintPlaylistList(playlistListType * playlistList, char * playlistListName){
 
     if(playlistList -> first == NULL){
         printf("%s não possui playlists\n\n", playlistListName);
@@ -53,13 +53,17 @@ void filePrintPlaylistList(playlistList * playlistList, char * playlistListName)
     for(cellType * cell = playlistList -> first; cell; cell = cell->next){
         sprintf(folderName, "Saida/%s", playlistListName);
         mkdir(folderName, S_IRWXU);
+
+        sprintf(folderName, "Saida/%s/Match", playlistListName);
+        mkdir(folderName, S_IRWXU);
+        
         printPlaylist(cell->playlist, playlistListName);
     }
 
     printf("\n");
 }
 
-void freePlaylistList(playlistList * playlistList){
+void freePlaylistList(playlistListType * playlistList){
     cellType * cell = playlistList -> first;
     cellType * aux = playlistList -> first;
 
@@ -73,9 +77,9 @@ void freePlaylistList(playlistList * playlistList){
     free(playlistList);
 }
 
-playlistList * sortBySinger(playlistList * originalList) {
+playlistListType * sortBySinger(playlistListType * originalList) {
 
-    playlistList * sortedList = createPlaylistList();
+    playlistListType * sortedList = createPlaylistList();
 
     cellType * aChecker = originalList -> first;
 
@@ -107,7 +111,7 @@ playlistList * sortBySinger(playlistList * originalList) {
 return sortedList;
 }
 
-int playlistListSimilarities(playlistList * list1, playlistList * list2){
+int playlistListSimilarities(playlistListType * list1, playlistListType * list2){
 
     if(list1 == NULL || list2 == NULL) return 0;
 
@@ -124,7 +128,7 @@ int playlistListSimilarities(playlistList * list1, playlistList * list2){
     return n;
 }
 
-void printInFilePlaylistList(playlistList * playlistList, FILE * file) {
+void printInFilePlaylistList(playlistListType * playlistList, FILE * file) {
 
     if(!playlistList) return;
 
@@ -147,37 +151,37 @@ void printInFilePlaylistList(playlistList * playlistList, FILE * file) {
 
 }
 
-void mashUpPlaylistLists(playlistList * list1, playlistList * list2) {
+void matchPlaylistLists(playlistListType * list1, playlistListType * list2) {
 
-    int foundMashup = 0;
+    int foundMatch = 0;
     cellType * runner1 = list1 -> first;
 
-    while(runner1 && isMashup(runner1 -> playlist) != 1) {
+    while(runner1 && isMatch(runner1 -> playlist) != 1) {
 
         cellType * runner2 = list2 -> first;
 
-        while(runner2 && isMashup(runner1 -> playlist) != 1) {
+        while(runner2 && isMatch(runner1 -> playlist) != 1) {
 
-            if(!strcmp(getPlaylistName(runner1 -> playlist), getPlaylistName(runner2 -> playlist)) && !isMashup(runner1 -> playlist)) {
+            if(!strcmp(getPlaylistName(runner1 -> playlist), getPlaylistName(runner2 -> playlist)) && !isMatch(runner1 -> playlist)) {
 
                 cellType * runner3 = list1 -> first;
 
                 while(runner3) {
 
-                    if(!strcmp(getPlaylistName(runner2 -> playlist), getPlaylistName(runner3 -> playlist)) && isMashup(runner3 -> playlist)) {
+                    if(!strcmp(getPlaylistName(runner2 -> playlist), getPlaylistName(runner3 -> playlist)) && isMatch(runner3 -> playlist)) {
                         addToFrom(runner3 -> playlist, runner2 -> playlist);
-                        foundMashup = 1;
+                        foundMatch = 1;
                     }
 
                     runner3 = runner3 -> next;
                 }
                 
-                if(!foundMashup) {
-                    playlistType * mashup = mashUpPlaylist(runner1 -> playlist, runner2 -> playlist);
-                    insertPlaylist(list1, mashup);
+                if(!foundMatch) {
+                    playlistType * match = matchPlaylist(runner1 -> playlist, runner2 -> playlist);
+                    insertPlaylist(list1, match);
                 }
 
-                foundMashup = 0;
+                foundMatch = 0;
             }
 
             runner2 = runner2 -> next;

@@ -17,6 +17,8 @@ playlistType * readPlaylistFile(char * playlistFileName);
 
 int thereIsSong(playlistType * playlist);
 
+int thereIsThisSong(playlistType * playlist, char * songName);
+
 char * getFirstSingerName(playlistType * playlist);
 
 char * getPlaylistName(playlistType *playlist);
@@ -25,9 +27,9 @@ void clipSingerToPlaylist(playlistType * singerPlaylist, playlistType * sourcePl
 
 int playlistSimilarities(playlistType *playlist1, playlistType *playlist2);
 
-int isMashup(playlistType * playlist);
+int isMatch(playlistType * playlist);
 
-playlistType * mashUpPlaylist(playlistType * original, playlistType * toMashup);
+playlistType * matchPlaylist(playlistType * original, playlistType * tomatch);
 
 void addToFrom(playlistType * toAdd, playlistType * source);
 

@@ -10,7 +10,7 @@ playlistListType* createPlaylistList();
 
 void insertPlaylist(playlistListType * playlistList, playlistType * playlistToAdd);
 
-void filePrintPlaylistList(playlistListType * playlistList, char * playlistListName);
+void filePrintPlaylistList(playlistListType * playlistList, char * playlistListName, int printMatch);
 
 void freePlaylistList(playlistListType * playlistList);
 
@@ -18,9 +18,7 @@ playlistListType * sortBySinger(playlistListType * originalList);
 
 int playlistListSimilarities(playlistListType * list1, playlistListType * list2);
 
-void createPlaylistListFile(playlistListType * playlistList);
-
-void printInFilePlaylistList(playlistListType * playlistList, FILE * file);
+void printRefactoredPlaylistList(playlistListType * playlistList, FILE * file);
 
 void matchPlaylistLists(playlistListType * list1, playlistListType * list2);
 

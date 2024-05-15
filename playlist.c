@@ -53,18 +53,19 @@ void insertCell(playlistType * playlist, songType * song) {
 
 }
 
-void printPlaylist(playlistType * playlist, char *name) {
+void printPlaylist(playlistType * playlist, char *name, int printMatch) {
 
     if(!playlist) return;
 
     char fileName[100];  
-    if(isMatch(playlist)) {
-        sprintf(fileName, "Saida/%s/Match/%s-match.txt", name, playlist->playlistName);
-    }
-    else {
+    if(printMatch) {
+        sprintf(fileName, "Merge/%s/%s.txt", name, playlist->playlistName);
+    } else {
         sprintf(fileName, "Saida/%s/%s.txt", name, playlist->playlistName);
     }
     FILE *file = fopen(fileName, "w");
+
+    
 
     printf("  %s:\n", playlist->playlistName);
 

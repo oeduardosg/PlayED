@@ -40,7 +40,7 @@ void insertPlaylist(playlistListType * playlistList, playlistType * playlistToAd
     playlistList -> last = cell;
 }
 
-void filePrintPlaylistList(playlistListType * playlistList, char * playlistListName){
+void filePrintPlaylistList(playlistListType * playlistList, char * playlistListName, int printMatch){
 
     if(playlistList -> first == NULL){
         printf("%s não possui playlists\n\n", playlistListName);
@@ -51,13 +51,11 @@ void filePrintPlaylistList(playlistListType * playlistList, char * playlistListN
     char folderName[100];
 
     for(cellType * cell = playlistList -> first; cell; cell = cell->next){
-        sprintf(folderName, "Saida/%s", playlistListName);
-        mkdir(folderName, S_IRWXU);
-
-        sprintf(folderName, "Saida/%s/Match", playlistListName);
+        if(printMatch) sprintf(folderName, "Merge/%s", playlistListName);
+        else sprintf(folderName, "Saida/%s", playlistListName);
         mkdir(folderName, S_IRWXU);
         
-        printPlaylist(cell->playlist, playlistListName);
+        printPlaylist(cell->playlist, playlistListName, printMatch);
     }
 
     printf("\n");
@@ -128,7 +126,7 @@ int playlistListSimilarities(playlistListType * list1, playlistListType * list2)
     return n;
 }
 
-void printInFilePlaylistList(playlistListType * playlistList, FILE * file) {
+void printRefactoredPlaylistList(playlistListType * playlistList, FILE * file) {
 
     if(!playlistList) return;
 

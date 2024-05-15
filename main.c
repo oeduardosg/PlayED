@@ -21,8 +21,8 @@ int main() {
     friendsSimilarities(list);
     filePrintRefactored(list);
 
-    matchFriendsPlaylists(list);
     printPeopleList(list);
+    matchFriendsPlaylists(list);
 
     
     freePeople(list);

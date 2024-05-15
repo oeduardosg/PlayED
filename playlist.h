@@ -9,7 +9,7 @@ playlistType * createPlaylist(char * playlistName);
 
 void insertCell(playlistType * playlist, songType * song);
 
-void printPlaylist(playlistType * playlist, char *name);
+void printPlaylist(playlistType * playlist, char *name, int printMatch);
 
 void freePlaylist(playlistType * playlist);
 

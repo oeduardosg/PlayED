@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "amizades.h"
+#include <sys/stat.h>
 
 /*Funcoes com personType*/
 
@@ -96,7 +97,7 @@ void printPeopleList(PeopleList *l){
     for(cellType *cel = l->first; cel; cel = cel->next){
         printf("-%s\n", cel->person->name);
         printFriendsOf(l, cel->person->name);
-        filePrintPlaylistList(cel->person->playlists, cel->person->name);
+        filePrintPlaylistList(cel->person->playlists, cel->person->name, 0);
     }
 }
 
@@ -263,7 +264,7 @@ void filePrintRefactored(PeopleList * list) {
 
     while(runner) {
         fprintf(file, "%s;", runner -> person -> name);
-        printInFilePlaylistList(runner -> person -> playlists, file);
+        printRefactoredPlaylistList(runner -> person -> playlists, file);
         fprintf(file, "\n");
         runner = runner -> next;
     }
@@ -273,6 +274,15 @@ void filePrintRefactored(PeopleList * list) {
 }
 
 void matchFriendsPlaylists(PeopleList * list) {
+
+    FILE *teste = fopen("Merge/teste", "w");
+
+    if(!teste) mkdir("Merge", S_IRWXU);
+    
+    if(teste) {
+        remove("Merge/teste");
+        fclose(teste);
+    }
 
     if(!list) {
         printf("A lista a ser feito match não existe.\n");
@@ -295,4 +305,8 @@ void matchFriendsPlaylists(PeopleList * list) {
         runner = runner -> next;
     }
 
+    
+    for(cellType *cel = list->first; cel; cel = cel->next){
+        filePrintPlaylistList(cel->person->playlists, cel->person->name, 1);
+    }
 }

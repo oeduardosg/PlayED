@@ -1,5 +1,5 @@
 #ifndef playlistList_h
-#define platlistList_h
+#define playlistList_h
 
 #include <stdio.h>
 #include "playlist.h"

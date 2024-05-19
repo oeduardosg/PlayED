@@ -28,6 +28,8 @@ playlistListType * createPlaylistList(){
 
 void insertPlaylist(playlistListType * playlistList, playlistType * playlistToAdd){
 
+    if(!playlistList) return;
+
     cellType * cell = malloc(sizeof(cellType));
 
     cell -> playlist = playlistToAdd;
@@ -40,28 +42,33 @@ void insertPlaylist(playlistListType * playlistList, playlistType * playlistToAd
     playlistList -> last = cell;
 }
 
-void filePrintPlaylistList(playlistListType * playlistList, char * playlistListName, int printMatch){
+void filePrintPlaylistList(playlistListType * playlistList, char * name, int printMatch){
+
+    if(!playlistList) return;
 
     if(playlistList -> first == NULL){
-        printf("%s não possui playlists\n\n", playlistListName);
+        printf("%s não possui playlists\n\n", name);
         return;
     }
-    printf("Playlists de %s:\n", playlistListName);
+    printf("Playlists de %s:\n", name);
 
     char folderName[100];
 
     for(cellType * cell = playlistList -> first; cell; cell = cell->next){
-        if(printMatch) sprintf(folderName, "Merge/%s", playlistListName);
-        else sprintf(folderName, "Saida/%s", playlistListName);
+        if(printMatch) sprintf(folderName, "Merge/%s", name);
+        else sprintf(folderName, "Saida/%s", name);
         mkdir(folderName, S_IRWXU);
         
-        printPlaylist(cell->playlist, playlistListName, printMatch);
+        printPlaylist(cell->playlist, name, printMatch);
     }
 
     printf("\n");
 }
 
 void freePlaylistList(playlistListType * playlistList){
+
+    if(!playlistList) return;
+
     cellType * cell = playlistList -> first;
     cellType * aux = playlistList -> first;
 

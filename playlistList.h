@@ -28,7 +28,7 @@ void insertPlaylist(playlistListType * playlistList, playlistType * playlistToAd
  * input: name (nome da Pessoa que tem essa Lista de Playlist)
  * input: printMatch (indica se as playlists normais serão printadas ou as playlists originadas por match/merge)
  * 
- * Se printMatch for 0, printa as playlists match na pasta Merge, caso contrario printa as playlists normais na pasta Saida
+ * Se printMatch for 0, printa as playlists normais na pasta Saida, caso contrario printa as playlists match na pasta Merge
 */
 void filePrintPlaylistList(playlistListType * playlistList, char * name, int printMatch);
 

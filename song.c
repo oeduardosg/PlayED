@@ -43,6 +43,7 @@ char * getSingerName(songType * song) {
 void clipSongData(char * songName, char * singerName, char * songString) {
     
     for(int i = 0; songString[i] != '\0'; i++) {
+        //se achar um " " segido de "-", separa a string em duas partes
         if(songString[i] == ' ' && songString[i + 1] == '-') {
             for(int j = 0; j < i; j++) {
                 singerName[j] = songString[j];

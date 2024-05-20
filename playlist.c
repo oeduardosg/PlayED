@@ -85,6 +85,8 @@ void printPlaylist(playlistType * playlist, char *name, int printMatch) {
 
 }
 
+
+//Libera uma célula e se removeSong for diferente de 0, remove música também
 void freeCell(cellType * cell, int removeSong) {
 
     if(removeSong) freeSong(cell -> song);
@@ -148,6 +150,11 @@ playlistType * readPlaylistFile(char * playlistFileName) {
 return playlist;
 }
 
+/**
+ * Remove uma célula
+ * 
+ * inputs: ponteiro para a playlist, nome da música e um inteiro que se for diferente de 0 vai remover a música
+*/
 void removeCell(playlistType * playlist, char * songOrSingerName, int removeSong) {
 
     if(!playlist) {
@@ -277,8 +284,6 @@ playlistType * matchPlaylist(playlistType * original, playlistType * toMatch) {
             insertCell(match, runner2 -> song);
         }
 
-        alreadyExists = 0;
-
         runner2 = runner2 -> nextCell;
     }
 
@@ -294,18 +299,9 @@ void addToFrom(playlistType * dest, playlistType * src) {
 
         cellType * checkInDest = dest -> firstCell;
 
-        while(checkInDest) {
-
-            if(!strcmp(getSongName(songToAdd -> song), getSongName(checkInDest -> song))) alreadyExists = 1;
-            checkInDest = checkInDest -> nextCell;
-
-        }
-
-        if(!alreadyExists) {
+        if(!thereIsThisSong(dest, getSongName(songToAdd -> song))) {
             insertCell(dest, songToAdd -> song);
         }
-
-        alreadyExists = 0;
 
         songToAdd = songToAdd -> nextCell;
     }

@@ -196,12 +196,14 @@ PeopleList* readFriends(){
     char name1[50], name2[50];
 
     char key = ';';
+    //Ler todas as pessoas
     while(key == ';'){
         fscanf(amizadeFile, "%[^; ^\n]%c", name1, &key);
         personType *p1 = createPerson(name1);
         insertPerson(list, p1);
     }
     
+    //Ler todas as amizades
     while(fscanf(amizadeFile, "%[^;]%*c", name1) == 1){
         fscanf(amizadeFile, "%[^\n]%*c", name2);
         addFriend(list, name1, name2);
@@ -259,6 +261,7 @@ void friendsSimilarities(PeopleList *list){
         for(cell2 = cell1->person->friends->first, n = 0; cell2; cell2 = cell2->next){
             n = playlistListSimilarities(getPersonPlaylists(cell1->person), getPersonPlaylists(cell2->person));
             
+            //se a pessoa nao foi printada ainda no similaridades.txt
             if(!cell2->person->printed)
                 fprintf(file, "%s;%s;%d\n", getPersonName(cell1->person), getPersonName(cell2->person), n);
         }
@@ -297,8 +300,9 @@ void filePrintRefactored(PeopleList * list) {
 
 void matchFriendsPlaylists(PeopleList * list) {
 
+    //Teste para ver se diretório já existe 
     FILE *teste = fopen("Merge/teste", "w");
-
+    
     if(!teste) mkdir("Merge", S_IRWXU);
     
     if(teste) {

@@ -86,16 +86,23 @@ playlistListType * sortBySinger(playlistListType * originalList) {
 
     playlistListType * sortedList = createPlaylistList();
 
+    //aChecker fará a primeira iteração passando por dentro de cada uma das playlists da lista
     cellType * aChecker = originalList -> first;
 
     while(aChecker) {
 
+        /*Enquantro ouver musicas dentro da playlist em aChecker, elas serão transformadas em novas 
+        * playlists a partir do nome do cantor encontrado
+        */
         while(thereIsSong(aChecker -> playlist)) {
 
             char * singer = getFirstSingerName(aChecker -> playlist);
             playlistType * singerPlaylist = createPlaylist(singer);
             cellType * bChecker = aChecker;
 
+            /*bChecker irá passar por dentro de TODAS as playlists (incluindo a ques está em aChecker) 
+            * recortando as músicas do cantor passado e enviando as músicas para a playlist nova
+            */
             while(bChecker) {
                 
                 clipSingerToPlaylist(singerPlaylist, bChecker -> playlist, singer);
@@ -104,6 +111,7 @@ playlistListType * sortBySinger(playlistListType * originalList) {
             }
 
             insertPlaylist(sortedList, singerPlaylist);
+            //Dessa forma, as músicas de um mesmo cantor estarão sendo removidas de todas as playlists por clipSinger a cada iteração
 
         }
 
@@ -161,16 +169,26 @@ void matchPlaylistLists(playlistListType * list1, playlistListType * list2) {
     int foundMatch = 0;
     cellType * runner1 = list1 -> first;
 
+    // runner1 vai receber uma playlist e continuar a verificação dela APENAS se não for uma playlist de match
     while(runner1 && isMatch(runner1 -> playlist) != 1) {
 
         cellType * runner2 = list2 -> first;
 
+        // runner2 recebe a primeira playlist da lista 2 e também prosseguirá a verificação apenas se não for match
         while(runner2 && isMatch(runner1 -> playlist) != 1) {
 
+            // Visto que todas as playlists tem o nome do artista, prosseguir verificando se runner1 e runner2 tem o mesmo nome
+            // Caso tenham o mesmo nome, deve ser realizado o match entre elas
             if(!strcmp(getPlaylistName(runner1 -> playlist), getPlaylistName(runner2 -> playlist)) && !isMatch(runner1 -> playlist)) {
 
                 cellType * runner3 = list1 -> first;
 
+                /* runner3 vai ter o trabalho de:
+                * Caso uma playlist de merge com o mesmo nome do artista seja encontrada, as músicas novas serão adicionadas
+                * a essa playlist já existente
+                * Caso não exista uma playlist no formato citado, runner3 permitirá que uma nova playlist seja criada e
+                * fará o match entre runner1 e runner2
+                */
                 while(runner3) {
 
                     if(!strcmp(getPlaylistName(runner2 -> playlist), getPlaylistName(runner3 -> playlist)) && isMatch(runner3 -> playlist)) {

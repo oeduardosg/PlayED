@@ -149,8 +149,18 @@ void friendsSimilarities(PeopleList *list);
 */
 void sortPlayListsPeople(PeopleList *list);
 
+/**
+ * Imprime em arquivo a lista de pessoas no modo refatorado, conforme especificações
+ * 
+ * input: list (ponteiro para lista de pessoas)
+*/
 void filePrintRefactored(PeopleList * list);
 
+/**
+ * Faz o match das playlists de uma pessoa com todos os seus amigos
+ * 
+ * input: list (ponteiro para Lista de Pessoas)
+*/
 void matchFriendsPlaylists(PeopleList * list);
 
 #endif

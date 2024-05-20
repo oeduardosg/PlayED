@@ -39,6 +39,12 @@ void filePrintPlaylistList(playlistListType * playlistList, char * name, int pri
 */
 void freePlaylistList(playlistListType * playlistList);
 
+/**
+ * Reorganiza toda a lista de playlists para que as playlists estejam separadas por cantor/bandas apenas
+ * 
+ * input: origialList (ponteiro para a lista de playlists a ser reformulada)
+ * output: ponteiro para a nova lista de playlists atualizada
+*/
 playlistListType * sortBySinger(playlistListType * originalList);
 
 /**
@@ -50,8 +56,19 @@ playlistListType * sortBySinger(playlistListType * originalList);
 */
 int playlistListSimilarities(playlistListType * list1, playlistListType * list2);
 
+/**
+ * Imprime a quantidade de playlists na lista e o nome de cada uma delas em arquivo
+ * 
+ * input: playlistList (ponteiro para lista de playlist a impressa)
+ * input: file (nome do arquivo onde será impresso)
+*/
 void printRefactoredPlaylistList(playlistListType * playlistList, FILE * file);
 
+/**
+ * Realiza o match entre duas listas de playlist, criando e inserindo playlists novas à list1
+ * 
+ * inputs: list1 e list2 (ponteiros para as Listas de Playlists a serem somadas)
+*/
 void matchPlaylistLists(playlistListType * list1, playlistListType * list2);
 
 #endif

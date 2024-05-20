@@ -258,6 +258,7 @@ void friendsSimilarities(PeopleList *list){
     for(cell1 = list->first; cell1; cell1 = cell1->next){
         for(cell2 = cell1->person->friends->first, n = 0; cell2; cell2 = cell2->next){
             n = playlistListSimilarities(getPersonPlaylists(cell1->person), getPersonPlaylists(cell2->person));
+            
             if(!cell2->person->printed)
                 fprintf(file, "%s;%s;%d\n", getPersonName(cell1->person), getPersonName(cell2->person), n);
         }
